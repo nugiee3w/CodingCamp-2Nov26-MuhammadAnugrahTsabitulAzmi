@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-Do Life Dashboard</title>
+
+    <!-- Theme-flash prevention: reads saved theme from localStorage and applies
+         it synchronously before the stylesheet is parsed, so the first paint
+         always uses the correct color scheme with no visible flash. -->
+    <script>
+      (function () {
+        try {
+          var settings = JSON.parse(localStorage.getItem('tld_settings'));
+          if (settings && (settings.theme === 'light' || settings.theme === 'dark')) {
+            document.documentElement.setAttribute('data-theme', settings.theme);
+          }
+        } catch (e) {
+          // Silently fall back to the default 'light' theme already set on <html>
+        }
+      })();
+    </script>
+
+    <link rel="stylesheet" href="css/style.css" />
+    <script defer src="js/script.js"></script>
+  </head>
+  <body>
+    <div id="dashboard-container">
+
+      <!-- ============================================================
+           HEADER — clock, date, greeting, user name input, theme toggle
+           ============================================================ -->
+      <header id="header-card">
+        <p id="clock-display">00:00:00</p>
+        <p id="date-display">Loading…</p>
+        <p id="greeting-display">Good Morning, User</p>
+
+        <form id="username-form" novalidate>
+          <input
+            id="username-input"
+            type="text"
+            maxlength="50"
+            aria-label="Your name"
+            placeholder="Enter your name"
+          />
+          <button id="username-confirm-btn" type="button">Set Name</button>
+        </form>
+
+        <button id="theme-toggle-btn" type="button" aria-label="Toggle theme">🌙</button>
+      </header>
+
+      <!-- ============================================================
+           MAIN GRID — two-column layout (left: timer + links, right: tasks)
+           ============================================================ -->
+      <main id="main-grid">
+
+        <!-- ── LEFT COLUMN ─────────────────────────────────────────── -->
+        <section id="left-column">
+
+          <!-- Focus Timer card -->
+          <article id="timer-card">
+            <h2>Focus Timer</h2>
+            <p id="timer-display">25:00</p>
+            <div id="timer-controls">
+              <button id="timer-start-btn" type="button">Start</button>
+              <button id="timer-stop-btn" type="button">Stop</button>
+              <button id="timer-reset-btn" type="button">Reset</button>
+            </div>
+            <p id="timer-banner" hidden>🎉 Session complete!</p>
+          </article>
+
+          <!-- Quick Links card -->
+          <article id="quicklinks-card">
+            <h2>Quick Links</h2>
+            <ul id="quicklinks-list"></ul>
+            <form id="quicklinks-form" novalidate>
+              <input
+                id="link-name-input"
+                type="text"
+                aria-label="Link name"
+                placeholder="Name"
+              />
+              <input
+                id="link-url-input"
+                type="url"
+                aria-label="Link URL"
+                placeholder="https://example.com"
+              />
+              <button id="add-link-btn" type="button">Add Shortcut</button>
+            </form>
+            <p id="link-error"></p>
+          </article>
+
+        </section>
+
+        <!-- ── RIGHT COLUMN ────────────────────────────────────────── -->
+        <section id="right-column">
+
+          <!-- Tasks card -->
+          <article id="tasks-card">
+            <h2>Tasks</h2>
+            <form id="task-form" novalidate>
+              <input
+                id="task-input"
+                type="text"
+                maxlength="200"
+                aria-label="New task name"
+                placeholder="Add a new task…"
+              />
+              <button id="add-task-btn" type="button">Add</button>
+            </form>
+            <p id="task-add-error"></p>
+            <p id="progress-indicator">0 of 0 tasks completed</p>
+            <ul id="task-list"></ul>
+          </article>
+
+        </section>
+
+      </main>
+    </div>
+  </body>
+</html>

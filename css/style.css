@@ -1,0 +1,584 @@
+
+/* =========================================================
+   TO-DO LIFE DASHBOARD
+   Design: Modern Minimal
+   ========================================================= */
+
+/* ---------- DESIGN TOKENS ---------- */
+
+:root {
+  color-scheme: light;
+
+  --page-bg: #f5f6fa;
+  --card-bg: #ffffff;
+  --surface-bg: #f8f8fc;
+
+  --text-primary: #24243a;
+  --text-secondary: #77788d;
+  --text-muted: #a0a1b2;
+
+  --accent: #7664d8;
+  --accent-hover: #6552c6;
+  --accent-soft: #efedff;
+
+  --border: #e9e9f0;
+  --danger: #e35d6a;
+  --success: #39a982;
+
+  --shadow: 0 4px 20px rgba(36, 36, 58, 0.045);
+
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --radius-sm: 9px;
+
+  --spacing: 24px;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --page-bg: #171821;
+  --card-bg: #222431;
+  --surface-bg: #2b2d3c;
+
+  --text-primary: #eeeef8;
+  --text-secondary: #aaaabd;
+  --text-muted: #77798e;
+
+  --accent: #a394ff;
+  --accent-hover: #b3a7ff;
+  --accent-soft: #34304e;
+
+  --border: #363849;
+  --danger: #ff7885;
+  --success: #58cba0;
+
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* ---------- GLOBAL ---------- */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 40px 24px;
+
+  background: var(--page-bg);
+  color: var(--text-primary);
+
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  font-size: 15px;
+  line-height: 1.6;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ---------- DASHBOARD LAYOUT ---------- */
+
+#dashboard-container {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+#main-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.85fr) minmax(0, 1.5fr);
+  gap: var(--spacing);
+  align-items: start;
+}
+
+#left-column,
+#right-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing);
+  min-width: 0;
+}
+
+/* ---------- CARDS ---------- */
+
+#header-card,
+#timer-card,
+#quicklinks-card,
+#tasks-card {
+  position: relative;
+  padding: 28px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+/* ---------- HEADER ---------- */
+
+#header-card {
+  min-height: 240px;
+  margin-bottom: var(--spacing);
+  padding: 32px 36px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+#clock-display {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: clamp(44px, 7vw, 68px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -3px;
+  font-variant-numeric: tabular-nums;
+}
+
+#date-display {
+  margin: 8px 0 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+#greeting-display {
+  margin: 14px 0 18px;
+  color: var(--text-primary);
+  font-size: 19px;
+  font-weight: 600;
+}
+
+/* ---------- USERNAME ---------- */
+
+#username-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: min(100%, 380px);
+}
+
+#username-input {
+  flex: 1;
+}
+
+#theme-toggle-btn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+
+  width: 42px;
+  height: 42px;
+
+  display: grid;
+  place-items: center;
+
+  background: var(--surface-bg);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+
+  color: var(--text-primary);
+  font-size: 18px;
+
+  transition: background 0.2s ease;
+}
+
+#theme-toggle-btn:hover {
+  background: var(--accent-soft);
+}
+
+/* ---------- SECTION HEADINGS ---------- */
+
+h2 {
+  margin: 0 0 22px;
+  color: var(--text-primary);
+  font-size: 18px;
+  font-weight: 650;
+  letter-spacing: -0.4px;
+}
+
+/* ---------- FOCUS TIMER ---------- */
+
+#timer-card {
+  text-align: center;
+  padding: 32px 24px;
+}
+
+#timer-card h2 {
+  text-align: left;
+}
+
+#timer-display {
+  margin: 28px 0;
+  color: var(--accent);
+  font-size: clamp(48px, 6vw, 64px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -2px;
+  font-variant-numeric: tabular-nums;
+}
+
+#timer-controls {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+#timer-banner {
+  margin: 22px 0 0;
+  padding: 12px;
+  background: var(--accent-soft);
+  border-radius: var(--radius-sm);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ---------- BUTTONS ---------- */
+
+button {
+  min-height: 42px;
+  padding: 9px 16px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+
+  background: var(--surface-bg);
+  color: var(--text-primary);
+
+  font-size: 13px;
+  font-weight: 600;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+button:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+#username-confirm-btn,
+#add-task-btn,
+#add-link-btn,
+#timer-start-btn {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #ffffff;
+}
+
+#username-confirm-btn:hover,
+#add-task-btn:hover,
+#add-link-btn:hover,
+#timer-start-btn:hover {
+  border-color: var(--accent-hover);
+  background: var(--accent-hover);
+}
+
+/* ---------- INPUTS ---------- */
+
+input {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 13px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+
+  background: var(--surface-bg);
+  color: var(--text-primary);
+
+  font-size: 14px;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+input::placeholder {
+  color: var(--text-muted);
+}
+
+input:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+/* ---------- TASKS CARD ---------- */
+
+#tasks-card {
+  min-height: auto;
+  padding: 24px;
+}
+
+#task-form {
+  display: flex;
+  gap: 10px;
+}
+
+#task-input {
+  flex: 1;
+}
+
+#task-add-error,
+#link-error {
+  min-height: 20px;
+  margin: 8px 0;
+  color: var(--danger);
+  font-size: 12px;
+}
+
+#progress-indicator {
+  margin: 16px 0 10px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ---------- TASK LIST ---------- */
+
+#task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#task-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  min-height: 40px;
+  padding: 7px 10px;
+
+  border: 1px solid var(--border);
+  border-radius: 9px;
+
+  background: var(--surface-bg);
+  color: var(--text-primary);
+
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+#task-list li:hover {
+  border-color: var(--accent);
+}
+
+/* ---------- TASK CHECKBOX ---------- */
+
+#task-list li input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  min-height: 16px;
+
+  margin: 0;
+  padding: 0;
+
+  border: 1.5px solid var(--text-muted);
+  border-radius: 4px;
+
+  background: var(--card-bg);
+
+  cursor: pointer;
+}
+
+#task-list li input[type="checkbox"]:checked {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+#task-list li input[type="checkbox"]:checked::after {
+  content: "✓";
+  display: block;
+
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 14px;
+  text-align: center;
+}
+
+#task-list li input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Task text */
+
+#task-list li label,
+#task-list li span {
+  font-size: 13px;
+}
+
+/* Task action buttons */
+
+#task-list li button {
+  min-height: 30px;
+  padding: 5px 9px;
+  font-size: 12px;
+}
+
+/* ---------- QUICK LINKS ---------- */
+
+#quicklinks-card h2 {
+  margin-bottom: 18px;
+}
+
+#quicklinks-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+}
+
+#quicklinks-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 9px 12px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+
+  background: var(--surface-bg);
+  font-size: 13px;
+}
+
+#quicklinks-list a {
+  color: var(--text-primary);
+  font-weight: 600;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+#quicklinks-list a:hover {
+  color: var(--accent);
+}
+
+/* ---------- QUICK LINKS FORM ---------- */
+
+#quicklinks-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#quicklinks-form button {
+  align-self: flex-start;
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 760px) {
+  body {
+    padding: 20px 14px;
+  }
+
+  #main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #header-card {
+    min-height: 220px;
+    padding: 28px 22px;
+  }
+
+  #clock-display {
+    font-size: clamp(42px, 12vw, 58px);
+  }
+
+  #timer-card,
+  #quicklinks-card {
+    padding: 24px 20px;
+  }
+}
+
+@media (max-width: 420px) {
+  #username-form {
+    flex-direction: column;
+  }
+
+  #username-confirm-btn {
+    width: 100%;
+  }
+
+  #task-form {
+    flex-direction: column;
+  }
+
+  #add-task-btn {
+    width: 100%;
+  }
+
+  #timer-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  #timer-start-btn {
+    grid-column: 1 / -1;
+  }
+
+  #clock-display {
+    letter-spacing: -2px;
+  }
+}
